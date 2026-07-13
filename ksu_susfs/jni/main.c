@@ -39,7 +39,8 @@
 #undef prctl
 #endif
 #define prctl(option, arg2, arg3, arg4, arg5) ({ \
-	int _r = syscall(__NR_reboot, option, 0xFAFAFAFA, arg2, arg3); \
+	void *arg3_ptr = (void *)(arg3); \
+	int _r = syscall(__NR_reboot, option, 0xFAFAFAFA, arg2, &arg3_ptr); \
 	if (arg5) *(int*)(arg5) = _r; \
 	_r; \
 })
